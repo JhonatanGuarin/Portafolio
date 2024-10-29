@@ -74,80 +74,128 @@ export default function Skills() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-center">Mis Habilidades</h1>
-      
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
-        {skillsData.map((category) => (
-          <motion.button
-            key={category.name}
-            className={`px-4 py-2 rounded-full ${
-              activeCategory === category.name
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-            onClick={() => setActiveCategory(category.name)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {category.name}
-          </motion.button>
-        ))}
-      </div>
-
-      <motion.div 
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-2xl font-semibold mb-4 dark:text-white">{activeCategory}</h2>
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={activeCategory}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-          >
-            {skillsData
-              .find((category) => category.name === activeCategory)
-              ?.skills.map((skill) => (
-                <Tooltip key={skill.name} content={
-                  <div>
-                    <p>{skill.description}</p>
-                    <p>Nivel: {skill.level}%</p>
-                  </div>
-                }>
-                  <motion.div 
-                    className="flex flex-col items-center"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <div className="w-20 h-20 relative mb-2 overflow-hidden rounded-lg">
-                      <Image
-                        src={skill.image}
-                        alt={skill.name}
-                        layout="fill"
-                        objectFit="contain"
-                        className="transition-transform duration-300 hover:scale-110"
-                      />
-                    </div>
-                    <span className="text-center dark:text-white">{skill.name}</span>
-                  </motion.div>
-                </Tooltip>
-              ))}
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-
-      <div className="mt-8 text-center">
-        <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          Cambiar a modo {theme === 'dark' ? 'claro' : 'oscuro'}
-        </button>
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+            Mis Habilidades
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Un conjunto de tecnologías y herramientas que domino para crear soluciones innovadoras y eficientes.
+          </p>
+        </motion.div>
+        
+        <motion.div
+          className="flex flex-wrap justify-center gap-4 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {skillsData.map((category, index) => (
+            <motion.button
+              key={category.name}
+              className={`px-6 py-3 rounded-full font-medium transition-all ${
+                activeCategory === category.name
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-md'
+              }`}
+              onClick={() => setActiveCategory(category.name)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              {category.name}
+            </motion.button>
+          ))}
+        </motion.div>
+
+        <motion.div 
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">
+            {activeCategory}
+          </h2>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={activeCategory}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              {skillsData
+                .find((category) => category.name === activeCategory)
+                ?.skills.map((skill, index) => (
+                  <Tooltip key={skill.name} content={
+                    <div className="p-2">
+                      <p className="font-medium mb-2">{skill.description}</p>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-1">
+                        <div 
+                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                          style={{ width: `${skill.level}%` }}
+                        />
+                      </div>
+                      <p className="text-sm text-right">{skill.level}%</p>
+                    </div>
+                  }>
+                    <motion.div 
+                      className="group bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:shadow-lg transition-shadow"
+                      whileHover={{ scale: 1.05 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <div className="w-20 h-20 relative mx-auto mb-3">
+                        <Image
+                          src={skill.image}
+                          alt={skill.name}
+                          layout="fill"
+                          objectFit="contain"
+                          className="transition-transform duration-300 group-hover:scale-110"
+                        />
+                      </div>
+                      <span className="block text-center font-medium text-gray-800 dark:text-white">
+                        {skill.name}
+                      </span>
+                      <div className="mt-2 w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1">
+                        <motion.div 
+                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-1 rounded-full"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1, delay: index * 0.1 }}
+                        />
+                      </div>
+                    </motion.div>
+                  </Tooltip>
+                ))}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        <motion.div 
+          className="mt-12 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="px-6 py-3 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-md transition-all"
+          >
+            Cambiar a modo {theme === 'dark' ? 'claro' : 'oscuro'}
+          </button>
+        </motion.div>
       </div>
     </div>
   )

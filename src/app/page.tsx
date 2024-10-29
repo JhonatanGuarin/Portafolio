@@ -1,13 +1,22 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-16"
@@ -22,7 +31,7 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <Image
-                src="/images/IMG_1585.JPG" // Reemplaza con la ruta a tu foto
+                src="/images/IMG_1585.JPG" 
                 alt="Jhonatan G."
                 width={250}
                 height={250}
